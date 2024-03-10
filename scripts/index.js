@@ -12,11 +12,16 @@ function addCard(cardName, cardPicture) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
   cardElement.querySelector('.card__title').textContent = cardName;
+	cardElement.querySelector('.card__image').alt = cardName;
   cardElement.querySelector('.card__image').src = cardPicture;
 
-	placesList.addEventListener('click', removeEvent);
+	const delIcon = cardElement.querySelector('.card__delete-button');
+	delIcon.addEventListener('click', function () {
+		const listItem = delIcon.closest('.card');
+		listItem.remove();
+	})
 
-  placesList.append(cardElement);
+	return cardElement;
 }
 
 addButton.addEventListener('click', function () { 							
@@ -31,7 +36,8 @@ saveButton.addEventListener('click', function () {
 	const placeName = popup.querySelector('.popup__input_type_card-name');
   const placeLink = popup.querySelector('.popup__input_type_url');
 
-  addCard(placeName.value, placeLink.value);
+  const saveCard = addCard(placeName.value, placeLink.value);
+	placesList.append(saveCard);
 	popup.classList.remove('popup_is-opened');
 
 	placeName.value = '';
@@ -39,12 +45,6 @@ saveButton.addEventListener('click', function () {
 });
 
 for (let i = 0; i < initialCards.length; i++) { 
-  addCard(initialCards[i].name, initialCards[i].link);
-}
-
-function removeEvent(e) {
-	if(e.target.classList.contains('card__delete-button')) {
-		placesList.removeChild(e.target.parentElement);
-		placesList.removeChild(placesList);
-	}
+  const createdCard = addCard(initialCards[i].name, initialCards[i].link);
+	placesList.append(createdCard);
 }
