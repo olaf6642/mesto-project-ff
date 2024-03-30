@@ -1,7 +1,7 @@
 function openModal(modalElement) {
 	modalElement.classList.add('popup_is-opened');
-	const popClose = modalElement.querySelector('.popup__close');
-	popClose.addEventListener('click', () => { closeModal(modalElement) });
+	const buttonClosePopup = modalElement.querySelector('.popup__close');
+	buttonClosePopup.addEventListener('click', () => { closeModal(modalElement) });
 	document.addEventListener('keydown', closeModalEscKey);
 	document.addEventListener('click', clickModalOverlay);
 }
@@ -9,14 +9,16 @@ function openModal(modalElement) {
 function closeModal(modalElement) {
 	modalElement.classList.remove('popup_is-opened');
 	document.removeEventListener('click', clickModalOverlay);
+	document.removeEventListener('keydown', closeModalEscKey);
 }
 
 function closeModalEscKey(evt) {
 	if (evt.key === 'Escape') {
-		const popupQ = document.querySelector('.popup_is-opened');
-		closeModal(popupQ);
+		console.log(evt.key);
+		const popup = document.querySelector('.popup_is-opened');
+		closeModal(popup);
 	}
-	document.removeEventListener('keydown', closeModalEscKey);
+	
 }
 
 function clickModalOverlay(evt) {
@@ -26,22 +28,4 @@ function clickModalOverlay(evt) {
 	}
 }
 
-function openCard(evt) {
-	const isImage = evt.target.classList.contains('card__image');
-	if (isImage) { 
-		const imgAlt = evt.target.alt;
-	const imgSrc = evt.target.src;
-
-	const img = document.querySelector('.popup__image');
-	img.src = imgSrc;
-	img.alt = imgAlt;
-
-	const caption = document.querySelector('.popup__caption');
-	caption.textContent = imgAlt;
-
-	const popupImage = document.querySelector('.popup_type_image');
-	openModal(popupImage);
-	}
-}
-
-export { openModal, closeModal, closeModalEscKey, clickModalOverlay, openCard }
+export { openModal, closeModal, closeModalEscKey, clickModalOverlay }

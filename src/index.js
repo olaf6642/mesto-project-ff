@@ -1,6 +1,6 @@
 import './pages/index.css';
 import './scripts/cards.js';
-import { openModal, closeModal, openCard } from './components/modal.js'
+import { openModal, closeModal } from './components/modal.js'
 import { createCard, likeCard } from './components/card.js'
 import { initialCards } from './scripts/cards.js'
 
@@ -12,10 +12,14 @@ const editButton = mainContent.querySelector('.profile__edit-button');
 
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupAdd = document.querySelector('.popup_type_new-card');
+const popupImage = document.querySelector('.popup_type_image');
 
 const profile = document.querySelector('.profile__info')
 const profileTitle = profile.querySelector('.profile__title');
 const profileDescription = profile.querySelector('.profile__description');
+
+const img = document.querySelector('.popup__image');
+const caption = document.querySelector('.popup__caption');
 
 //формы
 const profileForm = document.forms.editProfile;
@@ -34,7 +38,8 @@ editButton.addEventListener('click', function () {
 });
 
 addButton.addEventListener('click', function () {
-	openModal(popupAdd)
+	openModal(popupAdd);
+	placeForm.reset();
 });
 
 placeForm.addEventListener('submit', function (evt) {
@@ -42,26 +47,36 @@ placeForm.addEventListener('submit', function (evt) {
 	const saveCard = createCard(placeName.value, link.value);
 	placesList.prepend(saveCard);
 	closeModal(popupAdd);
-	placeForm.reset();
+	
 });
 
 profileForm.addEventListener('submit', function (evt) {
 	evt.preventDefault();
-	function editProfile() {
-		profileTitle.textContent = prName.value;
-		profileDescription.textContent = prDescription.value;
-		return profile
-	}
 	editProfile();
 	closeModal(popupEdit);
-	placeForm.reset();
 });
 
-placesList.addEventListener('click', likeCard);
-placesList.addEventListener('click', openCard);
+function editProfile() {
+	profileTitle.textContent = prName.value;
+	profileDescription.textContent = prDescription.value;
+}
+
+function openCard(evt) {
+	const isImage = evt.target.classList.contains('card__image');
+	if (isImage) { 
+		const imgAlt = evt.target.alt;
+		const imgSrc = evt.target.src;
+		img.src = imgSrc;
+		img.alt = imgAlt;
+		caption.textContent = imgAlt;
+		openModal(popupImage);
+	}
+}
 
 //цикл предзаполнения
 for (let i = 0; i < initialCards.length; i++) {
 	const createdCard = createCard(initialCards[i].name, initialCards[i].link);
 	placesList.append(createdCard);
 }
+
+export { openCard }
