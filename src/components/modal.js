@@ -1,7 +1,5 @@
 function openModal(modalElement) {
 	modalElement.classList.add('popup_is-opened');
-	const buttonClosePopup = modalElement.querySelector('.popup__close');
-	buttonClosePopup.addEventListener('click', () => { closeModal(modalElement) });
 	document.addEventListener('keydown', closeModalEscKey);
 	document.addEventListener('click', clickModalOverlay);
 }
@@ -28,4 +26,4 @@ function clickModalOverlay(evt) {
 	}
 }
 
-export { openModal, closeModal, closeModalEscKey, clickModalOverlay }
+export { openModal, closeModal }

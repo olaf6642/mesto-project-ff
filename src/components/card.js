@@ -1,9 +1,7 @@
-import { openCard } from '../index.js'
-
 const cardTemplate = document.querySelector('#card-template').content;
 const placesList = document.querySelector('.places__list');
 
-function createCard(cardName, cardPicture ) {
+function createCard(cardName, cardPicture, cardOpen ) {
 	const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 	const cardTitle = cardElement.querySelector('.card__title');
 	const cardImg = cardElement.querySelector('.card__image');
@@ -13,7 +11,7 @@ function createCard(cardName, cardPicture ) {
 	cardImg.src = cardPicture;
 	delButton.addEventListener('click', () => deleteCard(cardElement));
 	placesList.addEventListener('click', likeCard);
-	placesList.addEventListener('click', openCard);
+	placesList.addEventListener('click', cardOpen);
 	return cardElement;
 }
 
@@ -27,4 +25,4 @@ function likeCard(evt) {
 	}
 }
 
-export { createCard, likeCard }
+export { createCard }
