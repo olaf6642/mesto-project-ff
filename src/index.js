@@ -87,3 +87,5 @@ for (let i = 0; i < initialCards.length; i++) {
 	const createdCard = createCard(initialCards[i].name, initialCards[i].link, openCard);
 	placesList.append(createdCard);
 }
+
+//коммент для проверки коммита
