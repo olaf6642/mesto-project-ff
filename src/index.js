@@ -1,6 +1,7 @@
 import './pages/index.css';
 import './scripts/cards.js';
 import { openModal, closeModal } from './components/modal.js'
+import { enableValidation, clearValidation } from './components/validation.js';
 import { createCard } from './components/card.js'
 import { initialCards } from './scripts/cards.js'
 
@@ -36,14 +37,19 @@ const link = placeForm.elements.link;
 
 //слушатели
 buttonProfileEditForm.addEventListener('click', function () {
-	openModal(popupEdit)
+	openModal(popupEdit);
+	clearValidation(popupEdit);
+	const buttonElement = popupEdit.querySelector('.popup__button');
+	buttonElement.classList.remove('popup__button-disabled');
 	inputUserName.value = profileTitle.textContent;
 	inputUserDescription.value = profileDescription.textContent;
 });
 
 buttonOpenAddCardForm.addEventListener('click', function () {
 	openModal(popupAdd);
+	clearValidation(popupAdd);
 	placeForm.reset();
+	enableValidation();
 });
 
 placeForm.addEventListener('submit', function (evt) {
@@ -88,4 +94,5 @@ for (let i = 0; i < initialCards.length; i++) {
 	placesList.append(createdCard);
 }
 
-//коммент для проверки коммита
+
+enableValidation();

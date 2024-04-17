@@ -12,11 +12,9 @@ function closeModal(modalElement) {
 
 function closeModalEscKey(evt) {
 	if (evt.key === 'Escape') {
-		console.log(evt.key);
 		const popup = document.querySelector('.popup_is-opened');
 		closeModal(popup);
 	}
-	
 }
 
 function clickModalOverlay(evt) {
