@@ -7,6 +7,37 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  position: relative;
+  transition: opacity 0.3s;
+  z-index: 0;
+}
+
+.profile__image:hover {
+  cursor: pointer;
+  transition: opacity 0.3s;
+  opacity: 0.4;
+}
+
+.profile__image::after {
+  content: "";
+  width: 26px;
+  height: 26px;
+  background-image: url("/src/images/avatar-edit.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 47px;
+  left: 47px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 2;
+}
+
+.profile__image:hover::after {
+  content: "";
+  opacity: 1;
+  transition: opacity 0.3s;
+  
 }
 
 @media screen and (max-width: 740px) {

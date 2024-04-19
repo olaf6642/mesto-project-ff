@@ -16,15 +16,16 @@
       <img src="<%=require('./images/logo.svg')%>" alt="Логотип проекта масто"
         class="logo header__logo">
     </header>
+
     <main class="content">
       <section class="profile page__section">
         <div class="profile__image"
-          style="background-image: url(<%=require('./images/avatar.jpg')%>)">
+          style="background-image: url()">
         </div>
         <div class="profile__info">
-          <h1 class="profile__title">Жак-Ив Кусто</h1>
+          <h1 class="profile__title"></h1>
           <button class="profile__edit-button" type="button"></button>
-          <p class="profile__description">Исследователь океана</p>
+          <p class="profile__description"></p>
         </div>
         <button class="profile__add-button" type="button"></button>
       </section>
@@ -33,16 +34,17 @@
         </ul>
       </section>
     </main>
+
     <footer class="footer page__section">
       <p class="footer__copyright">
         © 2024 Mesto Russia
       </p>
     </footer>
+
     <div class="popup popup_is-animated popup_type_edit">
       <div class="popup__content">
         <button type="button" class="popup__close"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
-
         <form class="popup__form" name="editProfile" novalidate>
           <label class="popup__label">
             <input type="text" name="name" id="prName-input"
@@ -60,14 +62,29 @@
           </label>
             <button type="submit" class="button popup__button">Сохранить</button>
         </form>
-
       </div>
     </div>
+
+    <div class="popup popup_is-animated popup_avatar_edit">
+      <div class="popup__content popup-fit_content">
+        <button type="button" class="popup__close"></button>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <form class="popup__form" name="editAvatar" novalidate>
+          <label class="popup__label">
+            <input type="url" name="avatar" id="prAvatar"
+              class="popup__input popup__input_type_url" placeholder="Ссылка на фотографию" 
+              pattern="^https?:\/\/\S+\.\S+" data-error-message="Введите адрес сайта." required>
+            <span class="popup__input_error prAvatar_error"></span>
+          </label>
+            <button type="submit" class="button popup__button">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
     <div class="popup popup_is-animated popup_type_new-card">
       <div class="popup__content">
         <button type="button" class="popup__close"></button>
         <h3 class="popup__title">Новое место</h3>
-
         <form class="popup__form" name="newPlace">
           <label class="popup__label">
             <input type="text" name="placeName" id="placeName-input"
@@ -85,9 +102,9 @@
           </label>
           <button type="submit" class="button popup__button">Сохранить</button>
         </form>
-
       </div>
     </div>
+
     <div class="popup popup_is-animated popup_type_image">
       <div class="popup__content popup__content_content_image">
         <button type="button" class="popup__close"></button>
@@ -95,6 +112,15 @@
         <p class="popup__caption"></p>
       </div>
     </div>
+
+    <div class="popup popup_is-animated popup_delete">
+      <div class="popup__content popup-fit_content">
+        <button type="button" class="popup__close"></button>
+        <h3 class="popup__title">Вы уверены?</h3>
+        <button type="submit" class="button popup__button">Да</button>
+      </div>
+    </div>
+
   </div>
 
   <template id="card-template">
@@ -102,9 +128,13 @@
       <img class="card__image" src="" alt="" />
       <button type="button" class="card__delete-button"></button>
       <div class="card__description">
-        <h2 class="card__title">
-        </h2>
-        <button type="button" class="card__like-button"></button>
+        <h2 class="card__title"></h2>
+
+        <div class="like__section">
+          <button type="button" class="card__like-button"></button>
+          <span class="like__counter">0</span>
+        </div>
+
       </div>
     </li>
   </template>

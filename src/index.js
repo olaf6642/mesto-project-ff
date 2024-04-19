@@ -3,7 +3,8 @@ import './scripts/cards.js';
 import { openModal, closeModal } from './components/modal.js'
 import { enableValidation, clearValidation } from './components/validation.js';
 import { createCard } from './components/card.js'
-import { initialCards } from './scripts/cards.js'
+import { getInitialCards, getCurrentUser, editUser, editUserAvatar, addNewCard, removeCard, addLike, removeLike } 
+	from './components/api.js'
 
 //константы
 const mainContent = document.querySelector('.content');
@@ -14,14 +15,19 @@ const buttonProfileEditForm = mainContent.querySelector('.profile__edit-button')
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupAdd = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
+const popupDelete = document.querySelector('.popup_delete');
+const popupAvatar = document.querySelector('.popup_avatar_edit');
 
 const closeEditPopup = popupEdit.querySelector('.popup__close');
 const closeAddPopup = popupAdd.querySelector('.popup__close');
 const closeImagePopup = popupImage.querySelector('.popup__close');
+const closeDeletePopup = popupDelete.querySelector('.popup__close');
+const closeAvatarPopup = popupAvatar.querySelector('.popup__close');
 
-const profile = document.querySelector('.profile__info')
+const profile = document.querySelector('.profile')
 const profileTitle = profile.querySelector('.profile__title');
 const profileDescription = profile.querySelector('.profile__description');
+const profileAvatar = profile.querySelector('.profile__image');
 
 const img = document.querySelector('.popup__image');
 const caption = document.querySelector('.popup__caption');
@@ -34,6 +40,9 @@ const inputUserDescription = profileForm.elements.description;
 const placeForm = document.forms.newPlace;
 const placeName = placeForm.elements.placeName;
 const link = placeForm.elements.link;
+
+const avatarForm = document.forms.editAvatar;
+const avatarLink = avatarForm.elements.avatar;
 
 //слушатели
 buttonProfileEditForm.addEventListener('click', function () {
@@ -52,29 +61,39 @@ buttonOpenAddCardForm.addEventListener('click', function () {
 	enableValidation();
 });
 
+profileAvatar.addEventListener('click', function () {
+	openModal(popupAvatar);
+	clearValidation(popupAvatar);
+	avatarForm.reset();
+
+});
+
 placeForm.addEventListener('submit', function (evt) {
 	evt.preventDefault();
-	const saveCard = createCard(placeName.value, link.value, openCard);
-	placesList.prepend(saveCard);
+	addNewCard(placeName.value, link.value);
 	closeModal(popupAdd);
-	
 });
 
 profileForm.addEventListener('submit', function (evt) {
 	evt.preventDefault();
-	editProfile();
+	editUser(inputUserName.value, inputUserDescription.value);
 	closeModal(popupEdit);
+	profileTitle.textContent = inputUserName.value;
+	profileDescription.textContent = inputUserDescription.value;
+});
+
+avatarForm.addEventListener('submit', function (evt) {
+	evt.preventDefault();
+	editUserAvatar(avatarLink.value);
+	closeModal(popupAvatar);
+	profileAvatar.style.backgroundImage = `url(${avatarLink.value})`;
 });
 
 closeEditPopup.addEventListener('click', () => { closeModal(popupEdit) });
 closeAddPopup.addEventListener('click', () => { closeModal(popupAdd) });
 closeImagePopup.addEventListener('click', () => { closeModal(popupImage) });
-
-//функции
-function editProfile() {
-	profileTitle.textContent = inputUserName.value;
-	profileDescription.textContent = inputUserDescription.value;
-}
+closeDeletePopup.addEventListener('click', () => { closeModal(popupDelete) });
+closeAvatarPopup.addEventListener('click', () => { closeModal(popupAvatar) });
 
 function openCard(evt) {
 	const isImage = evt.target.classList.contains('card__image');
@@ -88,11 +107,28 @@ function openCard(evt) {
 	}
 }
 
-//цикл предзаполнения
-for (let i = 0; i < initialCards.length; i++) {
-	const createdCard = createCard(initialCards[i].name, initialCards[i].link, openCard);
-	placesList.append(createdCard);
-}
+//API
+//Promise.all()
+getCurrentUser()
+	.then((result) => {
+		profileTitle.textContent = result.name;
+		profileDescription.textContent = result.about;
+		profileAvatar.style.backgroundImage = `url(${result.avatar})`;
+	})
+	.catch((err) => {
+		console.log(err); 
+	}); 
 
+	getInitialCards()
+  .then((result) => {
+		for (let i = 0; i < result.length; i++) {
+			const createdCard = createCard(result[i].name, result[i].link, 
+				result[i].likes, result[i].owner._id, result[i]._id, openModal, closeModal, popupDelete,  openCard, removeCard, addLike, removeLike);
+			placesList.append(createdCard);
+		}
+  })
+  .catch((err) => {
+    console.log(err); 
+  }); 
 
 enableValidation();

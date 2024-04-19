@@ -1,18 +1,3 @@
-//требования к коду
-// const validationConfig = {
-//   formSelector: '.popup__form',
-//   inputSelector: '.popup__input',
-//   submitButtonSelector: '.popup__button',
-//   inactiveButtonClass: '.popup__button-disabled',
-//   inputErrorClass: '.popup__input_error',
-//   errorClass: '.popup__input_error_active',
-// 	errorUnderline: '.input_error_underline'
-// }
-
-// enableValidation(validationConfig);
-// clearValidation(profileForm, validationConfig);
-
-//валидация форм
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}_error`);
   inputElement.classList.add('popup__input_error_active');
