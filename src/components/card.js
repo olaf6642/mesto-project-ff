@@ -20,7 +20,6 @@ function createCard(cardName, cardPicture, likes, ownerId, cardId, openModal, cl
 		openModal(popupDelete);
 		const confirmDeleteButton = popupDelete.querySelector('.popup__button');
 		confirmDeleteButton.addEventListener('click', function () {
-			console.log(`карточка ${cardId} удалена`);
 			removeCard(cardId);
 			closeModal(popupDelete);
 			deleteCard(cardElement);
